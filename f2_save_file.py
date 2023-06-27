@@ -8,6 +8,18 @@ import mmap
 import struct
 
 
+class TColors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 class F2SaveFile(object):
     """Save file representation. Not perfect but it works on my machine!"""
     item_db = {}
@@ -16,13 +28,17 @@ class F2SaveFile(object):
     # Offsets/markers from http://falloutmods.wikia.com/wiki/SAVE.DAT_File_Format
     f5_marker = b'\x00\x00\x46\x50'
     neg_1 = 0xFFFFFFFF
+    # f5 - Function 5 - Player and inventory
+    # f6 - Function 6 - Player stats
+    # f9 - Function 9 - Perks,
+    # Perks. Note that some have an effect only when they are taken, so changing values here may not do anything.
     hex_map = {
         'header': {
             'offset': 0x0,
             'keys': {
                 'name': (0x1D, 0x20),
                 'save_name': (0x3D, 0x1E),
-                'save_time': (0x5B, 0x02)
+                # 'save_time': (0x5B, 0x02)
             }
         },
         'f5': {
@@ -219,6 +235,10 @@ class F2SaveFile(object):
         return self.mm_save.find(marker)
 
     def print_info(self):
-        print("Save Name: '{0}'\tCharacter: '{1}'".format(
-            self.get_value('header', 'save_name'),
-            self.get_value('header', 'name')))
+        save_name = self.get_value('header', 'save_name').rstrip(b'\x00').decode('cp1251')
+        # save_time = self.get_value('header', 'save_time').rstrip(b'\x00')
+        name = self.get_value('header', 'name').rstrip(b'\x00').decode('cp1251')
+        print(f"{TColors.OKCYAN}Save Name: '{save_name}'\n"
+              # f"Save Time: '{save_time}'\n"
+              f"Character: '{name}'{TColors.ENDC}")
+
