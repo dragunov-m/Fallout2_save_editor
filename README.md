@@ -1,9 +1,5 @@
 # Fallout 2 Save Game Editor
-Very basic save game editor for Fallout 2 (tested on OSX with the GoG.com version.)
-
-Wrote this since I couldn't find any save game editors that immediately worked on OSX (and as a fun little learning project!)
-
-It _should_ work outside of OSX, but no promises.
+Very basic save game editor for Fallout 2 (tested on Linux with the GoG and F2Restoration version.)
 
 ## Word of Caution
 <b>Make a backup of any save files before using this!</b>
@@ -50,6 +46,7 @@ Done.
 ## Todo
 - Add item editing.
 - Show actual modified skill values.
+- GUI
 
 ## Known Issues
 - Some valid save game files fail the parsing stage. This seems to mostly happen with saves towards the end of the game.
