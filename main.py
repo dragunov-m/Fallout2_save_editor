@@ -6,6 +6,7 @@ import getpass
 
 from f2_save_file import F2SaveFile
 
+
 class EditShell(cmd.Cmd):
     """ Basic shell for F2SaveFile."""
 
@@ -46,19 +47,19 @@ The file is edited as soon as you make a change. ('exit' to exit.)"""
     def _modify_value(self, name, getter, setter):
         """Wrapper for the modifier functions."""
         try:
-            value = raw_input('[Value: {0}] New value: '.format(getter(name)))
+            value = input('[Value: {0}] New value: '.format(getter(name)))
         except KeyError as exc:
-            print str(exc)
+            print(str(exc))
             return
         try:
             value = int(value)
             if value < 0:
                 raise ValueError()
         except ValueError as exc:
-            print "Positive integer required."
+            print("Positive integer required.")
             return
         setter(name, value)
-        print "Done."
+        print("Done.")
 
     def do_set_skill(self, skill):
         """set_skill [skill]
@@ -89,26 +90,27 @@ The file is edited as soon as you make a change. ('exit' to exit.)"""
         Terminate shell"""
         exit(0)
 
+
 if __name__ == '__main__':
     # Running on Windows/Linux/Non-GoG.com? Replace this path! 
-    save_path = "/Users/{0}/Library/Application Support/GOG.com/Fallout 2/saves".format(
+    save_path = "/home/{0}/Games/Fallout 2/game_info/data/data/savegame".format(
         getpass.getuser())
     try:
         slots = os.listdir(save_path)
     except OSError as exc:
-        print "Unable to list files in: {0}".format(save_path)
-        print exc
+        print("Unable to list files in: {0}".format(save_path))
+        print(exc)
         exit(1)
-    print "Choose save to edit:"
+    print("Choose save to edit:")
     for i, slot in enumerate(slots):
-        print "[{0}]\t{1}".format(i, slot)
+        print("[{0}]\t{1}".format(i, slot))
     try:
-        slot = int(raw_input('<0 - {0}> Edit: '.format(len(slots)-1)))
+        slot = int(input('<0 - {0}> Edit: '.format(len(slots)-1)))
     except ValueError as exc:
-        print "You need an integer."
+        print("You need an integer.")
         exit(1)
     if slot > len(slots) or slot < 0:
-        print "Invalid slot."
+        print("Invalid slot.")
         exit(1)
     save = F2SaveFile(os.path.join(save_path, slots[slot]))
     EditShell(save).cmdloop()
