@@ -7,11 +7,10 @@ Very basic save game editor for Fallout 2 (tested on Linux with the GoG and F2Re
 This script edits the save file continuously (i.e. as soon as you set a value it is set in the file) and it is easy to corrupt a save file.
 
 ## Usage
-Most users will probably want to use the command line shell available by running (requires Python 2.7):
+Most users will probably want to use the command line shell available by running (requires Python 3.6+):
 ```
-python main.py
+python main.py --path /path/where/located/savegame
 ```
-(Make sure the save file path defined in ```main.py``` is correct for your system.)
 
 After selecting a save file, ```help``` will give you an overview of the available commands:
 ```
