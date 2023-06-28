@@ -3,6 +3,7 @@
 import os
 import cmd
 import getpass
+import argparse
 
 from f2_save_file import F2SaveFile
 
@@ -93,8 +94,11 @@ The file is edited as soon as you make a change. ('exit' to exit.)"""
 
 if __name__ == '__main__':
     # Running on Windows/Linux/Non-GoG.com? Replace this path! 
-    save_path = "/home/{0}/Games/Fallout 2/game_info/data/data/savegame".format(
-        getpass.getuser())
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('--path', required=True,
+                            help='Set path where your Fallout 2 saves are located')
+    cli_arguments = arg_parser.parse_args()
+    save_path = cli_arguments.path
     try:
         slots = os.listdir(save_path)
     except OSError as exc:
@@ -105,7 +109,7 @@ if __name__ == '__main__':
     for i, slot in enumerate(slots):
         print("[{0}]\t{1}".format(i, slot))
     try:
-        slot = int(input('<0 - {0}> Edit: '.format(len(slots)-1)))
+        slot = int(input('<0 - {0}> Edit: '.format(len(slots) - 1)))
     except ValueError as exc:
         print("You need an integer.")
         exit(1)
